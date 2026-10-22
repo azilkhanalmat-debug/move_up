@@ -1,0 +1,2630 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Move Up - Healthy Life Programme</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-dark: #047857;
+      --primary-light: #ecfdf5;
+      --primary-gradient: linear-gradient(135deg, #059669 0%, #0d9488 50%, #0284c7 100%);
+      --accent-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 6px 24px -4px rgba(15, 23, 42, 0.07);
+      --shadow-lg: 0 16px 40px -8px rgba(15, 23, 42, 0.1);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-body);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 45%),
+        radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.08) 0px, transparent 45%),
+        radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.05) 0px, transparent 40%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+      transition: var(--transition);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+
+    /* Animated Move Up Logo in Header */
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .logo-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      animation: floatLogo 3s ease-in-out infinite;
+    }
+
+    .logo-icon-wrap::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 35%,
+        rgba(255, 255, 255, 0.5) 50%,
+        transparent 65%
+      );
+      transform: rotate(25deg);
+      animation: logoShine 4s infinite;
+    }
+
+    .logo-svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-3px) rotate(-1.5deg); }
+    }
+
+    @keyframes logoShine {
+      0% { transform: translateX(-100%) rotate(25deg); }
+      25%, 100% { transform: translateX(100%) rotate(25deg); }
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      line-height: 1.1;
+    }
+
+    .brand-title .word-move {
+      color: var(--text-main);
+    }
+
+    .brand-title .word-up {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      animation: glowText 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowText {
+      0% { filter: drop-shadow(0 0 2px rgba(16, 185, 129, 0.3)); }
+      100% { filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.5)); }
+    }
+
+    .brand-sub {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 1.6px;
+      margin-top: 2px;
+    }
+
+    /* Navigation */
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-item a {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: var(--radius-full);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .nav-item a:hover {
+      color: var(--primary);
+      background-color: var(--primary-light);
+    }
+
+    .nav-item.active a {
+      color: var(--primary);
+      background-color: var(--primary-light);
+      font-weight: 700;
+    }
+
+    /* Right Actions */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-start-challenge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 20px;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      border-radius: var(--radius-full);
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.28);
+      transition: var(--transition);
+      border: none;
+    }
+
+    .btn-start-challenge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.4);
+    }
+
+    .lang-pill-en {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: #ffffff;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    .lang-pill-en .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+
+    main {
+      flex: 1;
+      padding-bottom: 30px;
+    }
+
+    .page-section {
+      display: none;
+      animation: fadeIn 0.35s ease forwards;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 18px;
+      background-color: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: var(--radius-full);
+      color: #047857;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 18px;
+    }
+
+    /* TAB 1: RESEARCH HERO */
+    .research-hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+      padding: 56px 0 40px;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-title {
+      font-size: 46px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -1.2px;
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .hero-title .brand-gradient {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 16.5px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 30px;
+      max-width: 580px;
+    }
+
+    .hero-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero-primary {
+      padding: 14px 28px;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 15px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 8px 22px -3px rgba(5, 150, 105, 0.4);
+      transition: var(--transition);
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -3px rgba(5, 150, 105, 0.5);
+    }
+
+    .btn-hero-secondary {
+      padding: 13px 26px;
+      background: #ffffff;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 15px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      border: 1.5px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .btn-hero-secondary:hover {
+      border-color: #cbd5e1;
+      background-color: #f8fafc;
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      padding-top: 10px;
+      border-top: 1px solid #e2e8f0;
+      width: 100%;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-top: 4px;
+    }
+
+    .hero-card-visual {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 48px -10px rgba(15, 23, 42, 0.2);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      height: 440px;
+      background-color: #0f172a;
+    }
+
+    .hero-card-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s ease;
+    }
+
+    .hero-card-visual:hover img {
+      transform: scale(1.05);
+    }
+
+    .hero-quote-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      color: #ffffff;
+    }
+
+    .hero-quote-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #34d399;
+      letter-spacing: 1.2px;
+      margin-bottom: 4px;
+    }
+
+    .hero-quote-text {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.45;
+      color: #f1f5f9;
+    }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin: 40px 0 60px;
+    }
+
+    .research-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .research-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: #a7f3d0;
+    }
+
+    .research-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #ecfdf5;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .research-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .research-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* TAB 2: SCHEDULE */
+    .schedule-header {
+      text-align: center;
+      padding: 44px 0 24px;
+    }
+
+    .schedule-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .schedule-sub {
+      font-size: 15.5px;
+      color: var(--text-muted);
+      max-width: 660px;
+      margin: 0 auto;
+    }
+
+    .weekly-progress-card {
+      max-width: 620px;
+      margin: 24px auto 32px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .trophy-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .progress-info {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .progress-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--text-light);
+      letter-spacing: 0.8px;
+    }
+
+    .progress-count {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .progress-bar-bg {
+      width: 140px;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--primary-gradient);
+      border-radius: var(--radius-full);
+      transition: width 0.4s ease;
+    }
+
+    .week-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .btn-week-tab {
+      padding: 9px 24px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 700;
+      border: 1.5px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-week-tab:hover {
+      border-color: #cbd5e1;
+      color: var(--text-main);
+    }
+
+    .btn-week-tab.active {
+      background: #059669;
+      color: #ffffff;
+      border-color: #059669;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+    }
+
+    .schedule-list-card {
+      max-width: 880px;
+      margin: 0 auto 50px;
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .day-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      border-bottom: 1px solid #f1f5f9;
+      transition: var(--transition);
+    }
+
+    .day-row:last-child {
+      border-bottom: none;
+    }
+
+    .day-row:hover {
+      background-color: #f8fafc;
+    }
+
+    .day-row.completed {
+      background-color: #f0fdf4;
+    }
+
+    .check-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: var(--transition);
+      background: #ffffff;
+      color: transparent;
+      font-size: 13px;
+    }
+
+    .day-row.completed .check-circle {
+      background: #059669;
+      border-color: #059669;
+      color: #ffffff;
+    }
+
+    .day-thumb {
+      width: 58px;
+      height: 58px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background-color: #f1f5f9;
+      border: 1px solid #e2e8f0;
+    }
+
+    .day-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .day-details {
+      flex-grow: 1;
+      min-width: 0;
+    }
+
+    .day-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .day-name {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #059669;
+      letter-spacing: 0.6px;
+    }
+
+    .category-pill {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: #f1f5f9;
+      color: var(--text-muted);
+    }
+
+    .workout-name {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .day-row.completed .workout-name {
+      text-decoration: line-through;
+      color: var(--text-light);
+    }
+
+    .workout-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      white-space: normal;
+    }
+
+    .btn-mark-done {
+      padding: 7px 16px;
+      border-radius: var(--radius-full);
+      font-size: 12.5px;
+      font-weight: 700;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .btn-mark-done:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: #a7f3d0;
+    }
+
+    .day-row.completed .btn-mark-done {
+      background: #dcfce7;
+      color: #15803d;
+      border-color: #86efac;
+    }
+
+    /* TAB 3: NUTRITION & RULES */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .featured-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .featured-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: #cbd5e1;
+    }
+
+    .featured-img-wrap {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+      background-color: #e2e8f0;
+    }
+
+    .featured-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .featured-card:hover .featured-img-wrap img {
+      transform: scale(1.08);
+    }
+
+    .img-overlay-tag {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      background: rgba(15, 23, 42, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .featured-content {
+      padding: 20px 22px 24px;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .featured-content p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 50px;
+    }
+
+    .rule-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .rule-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: #a7f3d0;
+    }
+
+    .rule-photo-wrap {
+      position: relative;
+      height: 140px;
+      overflow: hidden;
+      background-color: #f1f5f9;
+    }
+
+    .rule-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .rule-card:hover .rule-photo-wrap img {
+      transform: scale(1.06);
+    }
+
+    .rule-number-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.35);
+      border: 2px solid #ffffff;
+      z-index: 2;
+    }
+
+    .rule-tag {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(6px);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+    }
+
+    .rule-body {
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-grow: 1;
+    }
+
+    .rule-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .rule-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* TAB 4: CAMPAIGN */
+    .campaign-quote-banner {
+      background: linear-gradient(135deg, #059669 0%, #0d9488 60%, #0284c7 100%);
+      border-radius: var(--radius-lg);
+      padding: 50px 36px;
+      text-align: center;
+      color: #ffffff;
+      margin: 40px 0 48px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 36px -8px rgba(5, 150, 105, 0.4);
+    }
+
+    .campaign-quote-text {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .campaign-quote-author {
+      font-size: 16px;
+      font-weight: 600;
+      opacity: 0.92;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .activity-rules-heading {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .activity-rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .activity-rule-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .activity-rule-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: #a7f3d0;
+    }
+
+    .rule-step-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #ecfdf5;
+      color: #059669;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .activity-rule-card h4 {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .activity-rule-card p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .teen-challenge-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 50%, #eff6ff 100%);
+      border: 2px solid #a7f3d0;
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      box-shadow: var(--shadow-md);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+
+    .challenge-icon-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      background: #059669;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.35);
+      flex-shrink: 0;
+    }
+
+    .challenge-text-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .challenge-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #047857;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+    }
+
+    .challenge-headline {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .challenge-body-text {
+      font-size: 15px;
+      color: #334155;
+      line-height: 1.55;
+    }
+
+    .btn-join-challenge {
+      padding: 14px 28px;
+      background: #059669;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 14.5px;
+      border-radius: var(--radius-full);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-join-challenge:hover {
+      background: #047857;
+      transform: translateY(-2px);
+    }
+
+    /* TAB 5: TEAM */
+    .team-section-wrap {
+      padding: 40px 0;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 50px;
+    }
+
+    .member-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .member-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: #a7f3d0;
+    }
+
+    .member-badge-num {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: #ecfdf5;
+      color: #059669;
+      font-weight: 800;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .member-avatar {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ecfdf5 0%, #dbeafe 100%);
+      border: 3px solid #ffffff;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 16px;
+      transition: transform 0.4s ease;
+    }
+
+    .member-card:hover .member-avatar {
+      transform: scale(1.08);
+    }
+
+    .member-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .member-role {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #059669;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 12px;
+    }
+
+    .member-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .game-quiz-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      max-width: 680px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .quiz-question {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 18px;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .quiz-opt-btn {
+      padding: 13px 20px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: #ffffff;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 14.5px;
+      text-align: left;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quiz-opt-btn:hover {
+      border-color: #059669;
+      background-color: #f0fdf4;
+    }
+
+    /* TAB 6: BRAND LOGO (ANIMATED) */
+    .brand-hero-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 56px 40px;
+      box-shadow: 0 16px 40px -8px rgba(15, 23, 42, 0.08);
+      max-width: 960px;
+      margin: 0 auto 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .brand-hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--accent-gradient);
+    }
+
+    .brand-lockup-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .brand-icon-large {
+      width: 180px;
+      height: 180px;
+      position: relative;
+      flex-shrink: 0;
+      cursor: pointer;
+      filter: drop-shadow(0 16px 32px rgba(5, 150, 105, 0.35));
+      animation: iconFloatLarge 3.6s ease-in-out infinite;
+      transition: transform 0.3s ease;
+    }
+
+    .brand-icon-large:hover {
+      transform: scale(1.06) rotate(-2deg);
+    }
+
+    @keyframes iconFloatLarge {
+      0%, 100% {
+        transform: translateY(0px);
+        filter: drop-shadow(0 14px 28px rgba(5, 150, 105, 0.32));
+      }
+      50% {
+        transform: translateY(-9px);
+        filter: drop-shadow(0 24px 40px rgba(6, 182, 212, 0.45));
+      }
+    }
+
+    .brand-icon-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .athlete-figure-group {
+      transform-origin: 120px 120px;
+      animation: athleteJumpAnim 2.8s ease-in-out infinite;
+    }
+
+    @keyframes athleteJumpAnim {
+      0%, 100% { transform: translateY(0); }
+      45% { transform: translateY(-4px) scale(1.02); }
+      75% { transform: translateY(1.5px) scale(0.99); }
+    }
+
+    .ecg-pulse-path {
+      stroke-dasharray: 240;
+      stroke-dashoffset: 0;
+      animation: ecgFlowAnim 3.2s linear infinite;
+    }
+
+    @keyframes ecgFlowAnim {
+      0% {
+        stroke-dashoffset: 240;
+        opacity: 0.65;
+      }
+      50% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+        filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.95));
+      }
+      100% {
+        stroke-dashoffset: -240;
+        opacity: 0.65;
+      }
+    }
+
+    .brand-text-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .brand-heading-large {
+      font-size: 68px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .brand-heading-large .text-move {
+      color: #0f172a;
+    }
+
+    .brand-heading-large .text-up {
+      background: linear-gradient(135deg, #06b6d4 0%, #0284c7 60%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-left: 1px;
+      animation: textGlowPulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes textGlowPulse {
+      0% { filter: drop-shadow(0 0 2px rgba(6, 182, 212, 0.3)); }
+      100% { filter: drop-shadow(0 0 10px rgba(2, 132, 199, 0.6)); }
+    }
+
+    .brand-accent-pill {
+      width: 44px;
+      height: 5px;
+      background: #059669;
+      border-radius: var(--radius-full);
+      margin-bottom: 14px;
+      animation: pillPulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pillPulse {
+      0%, 100% { width: 44px; opacity: 0.85; }
+      50% { width: 64px; opacity: 1; box-shadow: 0 0 10px rgba(5, 150, 105, 0.6); }
+    }
+
+    .brand-slogan-text {
+      font-size: 21px;
+      font-weight: 600;
+      color: #475569;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-logo-interactive {
+      padding: 13px 26px;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 14.5px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.35);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-logo-interactive:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(5, 150, 105, 0.45);
+    }
+
+    .brand-features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 960px;
+      margin: 0 auto 50px;
+    }
+
+    .brand-feat-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px 20px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-feat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: #a7f3d0;
+    }
+
+    .brand-feat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #ecfdf5;
+      color: #059669;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+
+    .brand-feat-card h4 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .brand-feat-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .color-palette-bar {
+      max-width: 960px;
+      margin: 0 auto 30px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .palette-swatches {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .swatch-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .swatch-color {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    /* CELEBRATE BUTTON */
+    .global-celebrate-section {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 50%, #eff6ff 100%);
+      border: 1.5px solid #a7f3d0;
+      border-radius: var(--radius-lg);
+      padding: 50px 32px;
+      text-align: center;
+      margin: 50px 0 60px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .global-celebrate-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--accent-gradient);
+    }
+
+    .celebration-title {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .celebration-sub {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+
+    .btn-celebrate {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 19px 48px;
+      font-size: 19px;
+      font-weight: 800;
+      color: #ffffff;
+      background: linear-gradient(135deg, #059669 0%, #0ea5e9 50%, #6366f1 100%);
+      background-size: 200% 200%;
+      border: none;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      box-shadow: 0 10px 28px -4px rgba(5, 150, 105, 0.45), 0 0 0 4px rgba(167, 243, 208, 0.4);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: gradientShift 4s ease infinite, pulseGlow 2.5s infinite;
+      overflow: hidden;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 10px 28px -4px rgba(5, 150, 105, 0.45), 0 0 0 3px rgba(167, 243, 208, 0.4);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 16px 38px -2px rgba(14, 165, 233, 0.55), 0 0 0 8px rgba(186, 230, 253, 0.5);
+        transform: scale(1.03);
+      }
+    }
+
+    .btn-celebrate:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 18px 42px rgba(5, 150, 105, 0.6), 0 0 0 8px rgba(186, 230, 253, 0.6);
+    }
+
+    .btn-celebrate:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .btn-celebrate::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 80%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+      transform: skewX(-25deg);
+      animation: streakPass 3.5s infinite;
+    }
+
+    @keyframes streakPass {
+      0%, 40% { left: -120%; }
+      70%, 100% { left: 160%; }
+    }
+
+    .icon-bounce {
+      display: inline-block;
+      animation: bounceIcon 1.5s infinite;
+    }
+
+    @keyframes bounceIcon {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-4px) rotate(15deg); }
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .modal-backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+      transform: scale(0.85) translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid #e2e8f0;
+    }
+
+    .modal-backdrop.show .modal-box {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-icon-badge {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fef08a 0%, #f59e0b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+    }
+
+    .modal-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .modal-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .modal-stats {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .stat-chip {
+      background: #f1f5f9;
+      padding: 8px 16px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      color: #047857;
+    }
+
+    .modal-close-btn {
+      padding: 12px 32px;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+    }
+
+    .modal-close-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      background-color: #ffffff;
+      padding: 32px 0;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 13.5px;
+    }
+
+    @media (max-width: 1024px) {
+      .research-hero {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .hero-card-visual {
+        height: 340px;
+      }
+      .featured-grid,
+      .rules-grid,
+      .research-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .teen-challenge-box {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+      }
+      .brand-features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        height: auto;
+        padding: 16px 0;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .hero-title {
+        font-size: 32px;
+      }
+      .featured-grid,
+      .rules-grid,
+      .research-grid,
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+      .day-row {
+        padding: 14px 16px;
+      }
+      .day-thumb {
+        width: 48px;
+        height: 48px;
+      }
+      .campaign-quote-text {
+        font-size: 28px;
+      }
+      .brand-lockup-wrap {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+      }
+      .brand-text-block {
+        align-items: center;
+      }
+      .brand-heading-large {
+        font-size: 48px;
+      }
+      .brand-slogan-text {
+        font-size: 17px;
+      }
+      .brand-features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="container navbar">
+      <!-- Animated Move Up Logo -->
+      <a class="brand-logo" onclick="switchTab('logo')" title="View Official MoveUp Brand Logo">
+        <div class="logo-icon-wrap">
+          <svg class="logo-svg" viewBox="0 0 240 240" fill="none">
+            <!-- Athlete Figure -->
+            <circle cx="120" cy="58" r="17" fill="#ffffff" />
+            <path d="M 74 46 L 120 78 L 166 46" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M 120 76 L 120 126" stroke="#ffffff" stroke-width="14" stroke-linecap="round" />
+            <path d="M 120 126 L 76 178" stroke="#ffffff" stroke-width="14" stroke-linecap="round" />
+            <path d="M 120 126 L 152 152 L 180 134" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- Pulse Wave -->
+            <path d="M 58 194 L 92 194 L 106 202 L 120 180 L 136 202 L 150 194 L 182 194" stroke="#a7f3d0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">
+            <span class="word-move">Move</span>
+            <span class="word-up">Up</span>
+          </div>
+          <span class="brand-sub">Healthy Life Programme</span>
+        </div>
+      </a>
+
+      <!-- Navigation Tabs (With 6. Brand Logo added) -->
+      <ul class="nav-menu">
+        <li class="nav-item active" id="nav-research"><a onclick="switchTab('research')">1. Research</a></li>
+        <li class="nav-item" id="nav-plan"><a onclick="switchTab('plan')">2. 4-Week Plan</a></li>
+        <li class="nav-item" id="nav-nutrition"><a onclick="switchTab('nutrition')">3. Nutrition & Lifestyle</a></li>
+        <li class="nav-item" id="nav-campaign"><a onclick="switchTab('campaign')">4. Campaign</a></li>
+        <li class="nav-item" id="nav-team"><a onclick="switchTab('team')">5. Team & Game</a></li>
+        <li class="nav-item" id="nav-logo"><a onclick="switchTab('logo')">6. Brand Logo</a></li>
+      </ul>
+
+      <!-- Action Pill: English Badge & Quick Start -->
+      <div class="nav-actions">
+        <button class="btn-start-challenge" onclick="switchTab('plan')">
+          <span>Start Challenge</span>
+          <span>→</span>
+        </button>
+        <div class="lang-pill-en">
+          <span class="dot"></span>
+          <span>English</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="container">
+
+    <!-- TAB 1: RESEARCH -->
+    <section id="section-research" class="page-section active">
+      <div class="research-hero">
+        <div class="hero-content">
+          <div class="section-badge">
+            <span>⚡ SCIENTIFICALLY BACKED FITNESS GUIDE</span>
+          </div>
+          <h1 class="hero-title">
+            Transform Your Body with <span class="brand-gradient">Move Up</span>
+          </h1>
+          <p class="hero-desc">
+            Small steps lead to big changes. Explore physical activity types, follow our interactive 4-week workout routine, and adopt key healthy nutrition rules for a balanced lifestyle.
+          </p>
+
+          <div class="hero-btn-group">
+            <button class="btn-hero-primary" onclick="switchTab('plan')">Explore 4-Week Schedule</button>
+            <button class="btn-hero-secondary" onclick="switchTab('nutrition')">10 Nutrition Rules</button>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-num">6</span>
+              <span class="stat-label">Activity Types</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">28 Days</span>
+              <span class="stat-label">Structured Plan</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">10</span>
+              <span class="stat-label">Nutrition Rules</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card-visual">
+          <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1000&q=80" alt="Athletic training and fitness barbell">
+          <div class="hero-quote-badge">
+            <div class="hero-quote-label">Daily Inspiration</div>
+            <div class="hero-quote-text">"Consistency is the key to lasting physical and mental vitality."</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="research-grid">
+        <div class="research-card">
+          <div class="research-card-icon">🧠</div>
+          <h3>Cognitive Performance</h3>
+          <p>Scientific clinical trials confirm that 30 minutes of aerobic exercise elevates BDNF, boosting academic focus and memory retention.</p>
+        </div>
+        <div class="research-card">
+          <div class="research-card-icon">🫀</div>
+          <h3>Cardiovascular Resilience</h3>
+          <p>Interval running and active movement strengthen heart volume, enhance stamina, and regulate resting blood pressure for sustainable youth health.</p>
+        </div>
+        <div class="research-card">
+          <div class="research-card-icon">🔋</div>
+          <h3>Cellular Energy & Recovery</h3>
+          <p>Balancing whole-food nutrient intake with 8-10 hours of restorative sleep restores glycogen levels and accelerates muscle fiber reconstruction.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: 4-WEEK STRUCTURED FITNESS SCHEDULE -->
+    <section id="section-plan" class="page-section">
+      <div class="schedule-header">
+        <div class="section-badge"><span>📅 2. 4-Week Structured Fitness Schedule</span></div>
+        <h2 class="schedule-title">4-Week Structured Fitness Schedule</h2>
+        <p class="schedule-sub">Select a week tab and click completed days to keep track of your progress. Every workout matches its explicit visual image.</p>
+      </div>
+
+      <div class="weekly-progress-card">
+        <div class="trophy-badge">🏆</div>
+        <div class="progress-info">
+          <span class="progress-label">WEEKLY COMPLETION</span>
+          <span class="progress-count" id="progressCountText">0 of 7 Days Done (0%)</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+      </div>
+
+      <div class="week-tabs">
+        <button class="btn-week-tab active" id="btn-w1" onclick="selectWeek(1)">Week 1</button>
+        <button class="btn-week-tab" id="btn-w2" onclick="selectWeek(2)">Week 2</button>
+        <button class="btn-week-tab" id="btn-w3" onclick="selectWeek(3)">Week 3</button>
+        <button class="btn-week-tab" id="btn-w4" onclick="selectWeek(4)">Week 4</button>
+      </div>
+
+      <div class="schedule-list-card" id="scheduleListContainer"></div>
+    </section>
+
+    <!-- TAB 3: NUTRITION & LIFESTYLE -->
+    <section id="section-nutrition" class="page-section">
+      <div style="text-align: center; padding: 44px 0 32px;">
+        <div class="section-badge"><span>🍽️ 3. Nutrition & Lifestyle Rules</span></div>
+        <h2 class="schedule-title">Healthy Nutrition & 10 Essential Rules</h2>
+        <p class="schedule-sub">Key recommendations for fruits, balanced diet, hydration, quality sleep, and mental health.</p>
+      </div>
+
+      <div class="featured-grid">
+        <div class="featured-card">
+          <div class="featured-img-wrap">
+            <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=800&q=80" alt="Fresh Fruits & Dairy">
+            <div class="img-overlay-tag">Fresh Fruits & Dairy</div>
+          </div>
+          <div class="featured-content">
+            <p>Vitamin-rich fruits and natural foods that provide your body with daily sustained energy.</p>
+          </div>
+        </div>
+
+        <div class="featured-card">
+          <div class="featured-img-wrap">
+            <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80" alt="Balanced Salads & Protein">
+            <div class="img-overlay-tag">Balanced Salads & Protein</div>
+          </div>
+          <div class="featured-content">
+            <p>Essential combination of protein, lean meat, beans, and fresh greens for muscle recovery.</p>
+          </div>
+        </div>
+
+        <div class="featured-card">
+          <div class="featured-img-wrap">
+            <img src="https://avatars.mds.yandex.net/i?id=94ccd4d1756a4669e275ad34ad810a1ef61c405b-5491132-images-thumbs&n=13" alt="Pure Water & Hydration">
+            <div class="img-overlay-tag">Pure Water & Hydration</div>
+          </div>
+          <div class="featured-content">
+            <p>Drinking 1.5 - 2 liters of pure water daily speeds up metabolism and keeps you energized.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">1</div>
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80" alt="Balanced Nutrition">
+            <div class="rule-tag">Diet</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">Balanced Nutrition</div>
+            <p class="rule-desc">Eat fresh fruits, vegetables, whole grains, and lean protein with every meal.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">2</div>
+            <img src="https://avatars.mds.yandex.net/i?id=871283a8fe21e3df3ffa19df52e5613af3176f82-13240502-images-thumbs&n=13" alt="Stay Hydrated">
+            <div class="rule-tag">Hydration</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">Stay Hydrated</div>
+            <p class="rule-desc">Drink 6 to 8 glasses of pure water daily. Avoid sugary drinks and soda.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">3</div>
+            <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=700&q=80" alt="8-10 Hours Sleep">
+            <div class="rule-tag">Rest</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">8-10 Hours Sleep</div>
+            <p class="rule-desc">Consistent sleep boosts memory retention, muscle recovery, and brain function.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">4</div>
+            <img src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=700&q=80" alt="Limit Screen Time">
+            <div class="rule-tag">Digital Wellness</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">Limit Screen Time</div>
+            <p class="rule-desc">Keep leisure smartphone usage under 2 hours daily. Turn off screens before bed.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">5</div>
+            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=700&q=80" alt="Stress Management">
+            <div class="rule-tag">Mindfulness</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">Stress Management</div>
+            <p class="rule-desc">Practice mindfulness, deep breathing, or talk to friends when feeling stressed.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">6</div>
+            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=700&q=80" alt="Always Warm Up">
+            <div class="rule-tag">Fitness</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">Always Warm Up</div>
+            <p class="rule-desc">Prepare joints and muscles for 5-10 minutes before workouts to avoid injuries.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">7</div>
+            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=700&q=80" alt="Listen to Your Body">
+            <div class="rule-tag">Recovery</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">Listen to Your Body</div>
+            <p class="rule-desc">Take an extra rest day if you feel sharp pain or extreme exhaustion.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">8</div>
+            <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=700&q=80" alt="Daily Outdoors Time">
+            <div class="rule-tag">Sunshine</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">Daily Outdoors Time</div>
+            <p class="rule-desc">Spend at least 30 minutes in sunlight to boost immune system and Vitamin D.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">9</div>
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=700&q=80" alt="Consistency First">
+            <div class="rule-tag">Habits</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">Consistency First</div>
+            <p class="rule-desc">Moderate daily workouts build long-term stamina better than rare intense sessions.</p>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <div class="rule-photo-wrap">
+            <div class="rule-number-badge">10</div>
+            <img src="https://thumbs.dreamstime.com/b/photo-crazy-sporty-active-friends-jump-have-fun-dream-weekend-wear-casual-outfit-nature-summer-seaside-beach-235267110.jpg" alt="Active Friendship">
+            <div class="rule-tag">Social</div>
+          </div>
+          <div class="rule-body">
+            <div class="rule-title">Active Friendship</div>
+            <p class="rule-desc">Exercising together with classmates and friends keeps motivation high.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: CAMPAIGN -->
+    <section id="section-campaign" class="page-section">
+      <div class="campaign-quote-banner">
+        <h2 class="campaign-quote-text">“Small Steps. Big Changes.”</h2>
+        <p class="campaign-quote-author">Transforming school environments and youth communities one healthy habit at a time.</p>
+      </div>
+
+      <h3 class="activity-rules-heading">
+        <span>⚡ 5 Key Activity Rules</span>
+      </h3>
+      <div class="activity-rules-grid">
+        <div class="activity-rule-card">
+          <div class="rule-step-badge">1</div>
+          <h4>Focus on Progress</h4>
+          <p>Track weekly small achievements instead of perfect daily results.</p>
+        </div>
+
+        <div class="activity-rule-card">
+          <div class="rule-step-badge">2</div>
+          <h4>Make It Fun</h4>
+          <p>Choose sports you love like football, cycling or swimming.</p>
+        </div>
+
+        <div class="activity-rule-card">
+          <div class="rule-step-badge">3</div>
+          <h4>Train with Classmates</h4>
+          <p>Exercising in groups keeps motivation high.</p>
+        </div>
+
+        <div class="activity-rule-card">
+          <div class="rule-step-badge">4</div>
+          <h4>Set Clear Milestones</h4>
+          <p>Start with 3 workout days per week and increase step by step.</p>
+        </div>
+
+        <div class="activity-rule-card">
+          <div class="rule-step-badge">5</div>
+          <h4>Reward Effort</h4>
+          <p>Celebrate each completed week with healthy treats or fun activities.</p>
+        </div>
+      </div>
+
+      <div class="teen-challenge-box">
+        <div class="challenge-icon-wrap">🔥</div>
+        <div class="challenge-text-wrap">
+          <span class="challenge-tag">TEEN CHALLENGE</span>
+          <h3 class="challenge-headline">7-Day Hydration & Early Sleep Challenge</h3>
+          <p class="challenge-body-text">
+            Drink 8 full glasses of water every day and put away all mobile phones 45 minutes before sleep for 7 consecutive days!
+          </p>
+        </div>
+        <button class="btn-join-challenge" onclick="acceptTeenChallenge()">
+          Accept Challenge 🚀
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 5: TEAM -->
+    <section id="section-team" class="page-section">
+      <div class="team-section-wrap">
+        <div style="text-align: center; margin-bottom: 36px;">
+          <div class="section-badge"><span>👥 5. Move Up Project Team</span></div>
+          <h2 class="schedule-title">Our Student Leadership Team</h2>
+          <p class="schedule-sub">Dedicated students leading the healthy lifestyle initiative in school and community.</p>
+        </div>
+
+        <div class="team-grid">
+          <div class="member-card">
+            <div class="member-badge-num">1</div>
+            <div class="member-avatar">👨‍🎓</div>
+            <h3 class="member-name">Maxsetbaev Alpamis</h3>
+            <span class="member-role">Team Lead & Research</span>
+            <p class="member-desc">Coordinates project research, physical training guidelines, and community presentations.</p>
+          </div>
+
+          <div class="member-card">
+            <div class="member-badge-num">2</div>
+            <div class="member-avatar">🏃‍♂️</div>
+            <h3 class="member-name">Abatbaev Allayar</h3>
+            <span class="member-role">Fitness Coordinator</span>
+            <p class="member-desc">Designs the 4-week structured fitness routines, athletic testing, and outdoor cycling sessions.</p>
+          </div>
+
+          <div class="member-card">
+            <div class="member-badge-num">3</div>
+            <div class="member-avatar">🥗</div>
+            <h3 class="member-name">Azilxanov Almat</h3>
+            <span class="member-role">Nutrition Analyst</span>
+            <p class="member-desc">Oversees dietary balance research, hydration tracking, and school cafeteria wellness drives.</p>
+          </div>
+
+          <div class="member-card">
+            <div class="member-badge-num">4</div>
+            <div class="member-avatar">👩‍🎓</div>
+            <h3 class="member-name">Baymuratova Shaxsanem</h3>
+            <span class="member-role">Campaign Director</span>
+            <p class="member-desc">Spearheads student engagement, teen hydration challenges, and interactive digital communications.</p>
+          </div>
+        </div>
+
+        <div class="game-quiz-card">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <span style="background: #ecfdf5; color: #059669; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 9999px;">INTERACTIVE TRIVIA</span>
+          </div>
+          <div class="quiz-question">Question: Which of the following is optimal for daily recovery and cellular energy?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt-btn" onclick="checkQuiz(this, true)">
+              A) Drinking 6-8 glasses of water daily and getting 8-10 hours sleep
+            </button>
+            <button class="quiz-opt-btn" onclick="checkQuiz(this, false)">
+              B) Staying awake on smartphone screens until 2:00 AM
+            </button>
+            <button class="quiz-opt-btn" onclick="checkQuiz(this, false)">
+              C) Skipping breakfast and replacing meals with energy soda
+            </button>
+          </div>
+          <div id="quizResult" style="margin-top: 16px; font-weight: 700; font-size: 14.5px; display: none;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: BRAND LOGO (OFFICIAL MOVEUP LOGO ANIMATION) -->
+    <section id="section-logo" class="page-section">
+      <div style="text-align: center; padding: 44px 0 24px;">
+        <div class="section-badge"><span>💎 6. Official Brand & Identity</span></div>
+        <h2 class="schedule-title">MoveUp Official Brand Logo</h2>
+        <p class="schedule-sub">Move more. Feel better. Live healthy. — The visual emblem uniting sport, daily movement, and youth vitality.</p>
+      </div>
+
+      <!-- Main Animated Brand Showcase Card -->
+      <div class="brand-hero-card">
+        <div class="brand-lockup-wrap">
+          <!-- Animated SVG Icon matching PNG -->
+          <div class="brand-icon-large" onclick="burstLogoEnergy()" title="Click to trigger logo energy burst!">
+            <svg class="brand-icon-svg" viewBox="0 0 240 240" fill="none">
+              <defs>
+                <!-- Squircle Background Gradient -->
+                <linearGradient id="badgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00a884" />
+                  <stop offset="35%" stop-color="#059669" />
+                  <stop offset="100%" stop-color="#0284c7" />
+                </linearGradient>
+                <!-- Cardio Wave Gradient -->
+                <linearGradient id="cardioWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#5eead4" />
+                  <stop offset="50%" stop-color="#bae6fd" />
+                  <stop offset="100%" stop-color="#38bdf8" />
+                </linearGradient>
+              </defs>
+
+              <!-- App Icon Squircle Box -->
+              <rect x="12" y="12" width="216" height="216" rx="60" fill="url(#badgeGrad)" />
+
+              <!-- Active Athlete Figure (Jumping with arms up in victory) -->
+              <g class="athlete-figure-group">
+                <!-- Head -->
+                <circle cx="120" cy="58" r="17" fill="#ffffff" />
+                <!-- Raised Arms in Celebration -->
+                <path d="M 74 46 L 120 78 L 166 46" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                <!-- Spine / Torso -->
+                <path d="M 120 76 L 120 126" stroke="#ffffff" stroke-width="14" stroke-linecap="round" />
+                <!-- Left Leg (Straight back/push) -->
+                <path d="M 120 126 L 76 178" stroke="#ffffff" stroke-width="14" stroke-linecap="round" />
+                <!-- Right Leg (Bent forward athletic leap) -->
+                <path d="M 120 126 L 152 152 L 180 134" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              </g>
+
+              <!-- ECG Heartbeat / Vitality Pulse Wave Line -->
+              <path class="ecg-pulse-path" d="M 58 194 L 92 194 L 106 202 L 120 180 L 136 202 L 150 194 L 182 194" stroke="url(#cardioWaveGrad)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+            </svg>
+          </div>
+
+          <!-- Typography and Slogan Lockup matching PNG -->
+          <div class="brand-text-block">
+            <div class="brand-heading-large">
+              <span class="text-move">Move</span><span class="text-up">Up</span>
+            </div>
+            <!-- Accent Horizontal Green Pill -->
+            <div class="brand-accent-pill"></div>
+            <!-- Slogan -->
+            <div class="brand-slogan-text">
+              Move more. Feel better. Live healthy.
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-actions-row">
+          <button class="btn-logo-interactive" onclick="burstLogoEnergy()">
+            <span>⚡ Boost Logo Energy</span>
+          </button>
+          <button class="btn-hero-secondary" onclick="switchTab('plan')">
+            <span>Explore 4-Week Plan →</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Logo Meaning and Philosophy Breakdown -->
+      <div class="brand-features-grid">
+        <div class="brand-feat-card">
+          <div class="brand-feat-icon">🏃‍♂️</div>
+          <h4>The Jumping Athlete</h4>
+          <p>Symbolizes personal triumph, physical vitality, and reaching new levels of daily health through movement.</p>
+        </div>
+
+        <div class="brand-feat-card">
+          <div class="brand-feat-icon">📈</div>
+          <h4>Cardiovascular Wave</h4>
+          <p>Represents heart health, athletic stamina, and the aerobic exercises powering the 4-week program.</p>
+        </div>
+
+        <div class="brand-feat-card">
+          <div class="brand-feat-icon">🎨</div>
+          <h4>Emerald & Sky Blue</h4>
+          <p>Vibrant green represents nutrition and freshness; cyan blue symbolizes hydration and mental clarity.</p>
+        </div>
+
+        <div class="brand-feat-card">
+          <div class="brand-feat-icon">🌟</div>
+          <h4>The Golden Motto</h4>
+          <p>«Move more. Feel better. Live healthy.» — A clear, actionable compass guiding school and youth communities.</p>
+        </div>
+      </div>
+
+    <!-- GLOBAL ANIMATED CELEBRATE BUTTON -->
+    <div class="global-celebrate-section">
+      <h2 class="celebration-title">Celebrate Your Healthy Transformation!</h2>
+      <p class="celebration-sub">
+        Every healthy choice you make today paves the way for lasting strength, focus, and energy. Click the button below to celebrate your commitment!
+      </p>
+
+      <button class="btn-celebrate" id="celebrateBtn" onclick="triggerCelebration()">
+        <span class="icon-bounce">🎉</span>
+        <span>Celebrate Progress!</span>
+        <span class="icon-bounce">✨</span>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Celebration Modal Dialog -->
+  <div class="modal-backdrop" id="celebrationModal">
+    <div class="modal-box">
+      <div class="modal-icon-badge">🏆</div>
+      <h3 class="modal-title">Champion of Health!</h3>
+      <p class="modal-desc">
+        Congratulations! You’ve unlocked the <strong>Move Up Healthy Lifestyle Achievement</strong>. Keep applying these golden rules each day to build strength, sharp mental focus, and boundless energy.
+      </p>
+
+      <div class="modal-stats">
+        <div class="stat-chip">⭐ 28-Day Plan Ready</div>
+        <div class="stat-chip">💧 Hydration Champion</div>
+        <div class="stat-chip">🚀 Move Up Active</div>
+      </div>
+
+      <button class="modal-close-btn" onclick="closeCelebration()">Keep Going!</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2026 <strong>Move Up</strong> Healthy Life Programme. Built with passion for youth vitality and physical excellence.</p>
+    </div>
+  </footer>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+
+      const targetNav = document.getElementById('nav-' + tabId);
+      const targetSec = document.getElementById('section-' + tabId);
+
+      if (targetNav) targetNav.classList.add('active');
+      if (targetSec) targetSec.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    const weeksData = {
+      1: [
+        { day: "MONDAY", cat: "Cardio", title: "30 Min Morning Jogging", desc: "Easy continuous aerobic jog in the fresh outdoor air to awaken cardiovascular system.", img: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "TUESDAY", cat: "Flexibility", title: "Full Body Yoga & Stretching", desc: "Gentle spinal alignment, hamstring elongation, and calm breathing exercises.", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "WEDNESDAY", cat: "Strength", title: "Bodyweight Pushups & Core", desc: "3 sets of pushups, abdominal planks, and bodyweight squats for muscle tone.", img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "THURSDAY", cat: "Outdoor", title: "Outdoor Cycling Ride", desc: "45 minutes bicycle riding in a local park or quiet neighborhood bike lane.", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "FRIDAY", cat: "Team Sport", title: "Football Match Session", desc: "Friendly soccer or football game with teammates to train agility and coordination.", img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "SATURDAY", cat: "Balance", title: "Balance Board & Agility Drills", desc: "Proprioception exercises, single-leg stands, and ladder agility drills.", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "SUNDAY", cat: "Recovery", title: "Rest & Active Muscle Recovery", desc: "Peaceful rest, light walking, foam rolling, and adequate sleep for tissue repair.", img: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=400&q=80", done: false }
+      ],
+      2: [
+        { day: "MONDAY", cat: "Cardio", title: "Interval Sprint Running", desc: "Alternate 1 minute fast sprint with 2 minutes recovery walking.", img: "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "TUESDAY", cat: "Flexibility", title: "Dynamic Vinyasa Yoga Flow", desc: "Flowing yoga sequence focusing on hip openers and core stabilization.", img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "WEDNESDAY", cat: "Strength", title: "Dumbbell Resistance Workout", desc: "Dumbbell chest press, rows, lunges, and overhead shoulder presses.", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "THURSDAY", cat: "Outdoor", title: "Nature Trail Bike Cycling", desc: "Continuous aerobic outdoor cycling along nature pathways.", img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "FRIDAY", cat: "Team Sport", title: "Basketball Shooting & Game", desc: "High-intensity basketball drills, court sprints, and 3v3 team matches.", img: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "SATURDAY", cat: "Balance", title: "Agility Ladder & Jump Rope", desc: "Fast footwork drills to enhance reaction speed and lower limb power.", img: "https://images.unsplash.com/photo-1434596922112-19c563067271?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "SUNDAY", cat: "Recovery", title: "Meditation & Hydration Day", desc: "Relaxation techniques, warm baths, and whole food nutritional reset.", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&q=80", done: false }
+      ],
+      3: [
+        { day: "MONDAY", cat: "Cardio", title: "5K Continuous Tempo Run", desc: "Steady aerobic pace distance run to push stamina threshold.", img: "https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "TUESDAY", cat: "Flexibility", title: "Deep Muscle Stretch & Yoga", desc: "Holding poses for 45 seconds each to relieve accumulated muscle stiffness.", img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "WEDNESDAY", cat: "Strength", title: "Core & Calisthenics Strength", desc: "Pullups, pushups, leg raises, and bodyweight dips.", img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "THURSDAY", cat: "Outdoor", title: "Uphill Cycling Challenge", desc: "Targeting quadriceps and glutes on elevated bike terrain.", img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "FRIDAY", cat: "Team Sport", title: "Volleyball Rally & Matches", desc: "Jumping vertical leaps, team passes, and volleyball court play.", img: "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "SATURDAY", cat: "Balance", title: "Proprioception & Single-Leg Balance", desc: "Stabilizing ankle ligaments with focused balance positions.", img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "SUNDAY", cat: "Recovery", title: "Mindful Recovery Walk", desc: "20-minute gentle stroll in nature without strenuous exertion.", img: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400&q=80", done: false }
+      ],
+      4: [
+        { day: "MONDAY", cat: "Cardio", title: "Speed & Endurance Cardio Run", desc: "Final week push focusing on pace control and lung volume expansion.", img: "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "TUESDAY", cat: "Flexibility", title: "Full Body Restorative Mobility", desc: "Joint mobility movements and hamstring recovery stretches.", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "WEDNESDAY", cat: "Strength", title: "Advanced Bodyweight Workout", desc: "High reps of pushups, squats, lunges, and plank variations.", img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "THURSDAY", cat: "Outdoor", title: "Long-Distance Scenic Bike Ride", desc: "60-minute relaxing continuous outdoor bike tour.", img: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "FRIDAY", cat: "Team Sport", title: "Championship Football / Team Game", desc: "Celebrate month completion with an energetic group team game.", img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "SATURDAY", cat: "Balance", title: "Full Body Agility Test", desc: "Cone drills, jump rope cadence, and balance assessments.", img: "https://images.unsplash.com/photo-1434596922112-19c563067271?auto=format&fit=crop&w=400&q=80", done: false },
+        { day: "SUNDAY", cat: "Recovery", title: "Program Graduation & Rest", desc: "Reflect on your 4-week physical growth and plan your next healthy milestone.", img: "https://delta.creativecirclecdn.com/perryville/original/20250514-193626-708-Graduation.jpg", done: false }
+      ]
+    };
+
+    let currentWeek = 1;
+
+    function selectWeek(weekNum) {
+      currentWeek = weekNum;
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById('btn-w' + i);
+        if (btn) btn.classList.toggle('active', i === weekNum);
+      }
+      renderScheduleList();
+    }
+
+    function toggleDay(index) {
+      const day = weeksData[currentWeek][index];
+      day.done = !day.done;
+      renderScheduleList();
+      if (day.done) {
+        triggerMiniConfetti();
+      }
+    }
+
+    function renderScheduleList() {
+      const container = document.getElementById('scheduleListContainer');
+      const list = weeksData[currentWeek];
+      let completedCount = 0;
+      let html = '';
+
+      list.forEach((item, index) => {
+        if (item.done) completedCount++;
+
+        html += `
+          <div class="day-row ${item.done ? 'completed' : ''}">
+            <div class="check-circle" onclick="toggleDay(${index})" title="${item.done ? 'Completed' : 'Click to complete'}">
+              ${item.done ? '✓' : ''}
+            </div>
+            <div class="day-thumb">
+              <img src="${item.img}" alt="${item.title}" loading="lazy">
+            </div>
+            <div class="day-details">
+              <div class="day-meta">
+                <span class="day-name">${item.day}</span>
+                <span class="category-pill">${item.cat}</span>
+              </div>
+              <div class="workout-name">${item.title}</div>
+              <div class="workout-desc">${item.desc}</div>
+            </div>
+            <button class="btn-mark-done" onclick="toggleDay(${index})">
+              ${item.done ? '✓ Completed' : 'Mark Done'}
+            </button>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      const pct = Math.round((completedCount / list.length) * 100);
+      document.getElementById('progressCountText').textContent = `${completedCount} of 7 Days Done (${pct}%)`;
+      document.getElementById('progressBarFill').style.width = pct + '%';
+    }
+
+    renderScheduleList();
+
+    function acceptTeenChallenge() {
+      triggerMiniConfetti();
+      alert('🎉 Awesome! You joined the 7-Day Hydration & Early Sleep Challenge! Track your 8 glasses daily.');
+    }
+
+    function checkQuiz(btn, isCorrect) {
+      const resultDiv = document.getElementById('quizResult');
+      resultDiv.style.display = 'block';
+      if (isCorrect) {
+        btn.style.background = '#dcfce7';
+        btn.style.borderColor = '#22c55e';
+        btn.style.color = '#15803d';
+        resultDiv.innerHTML = '🎉 Exactly right! 8 glasses of pure water + 8-10 hours of rest is the scientific formula for peak performance!';
+        resultDiv.style.color = '#15803d';
+        triggerMiniConfetti();
+      } else {
+        btn.style.background = '#fee2e2';
+        btn.style.borderColor = '#ef4444';
+        resultDiv.innerHTML = '❌ Not quite. Late night screen usage and sugary drinks lead to energy crashes!';
+        resultDiv.style.color = '#b91c1c';
+      }
+    }
+
+    function burstLogoEnergy() {
+      triggerMiniConfetti();
+      const icon = document.querySelector('.brand-icon-large');
+      if (icon) {
+        icon.style.transform = 'scale(1.16) rotate(-4deg)';
+        setTimeout(() => {
+          icon.style.transform = '';
+        }, 400);
+      }
+    }
+
+    function playCelebrationFanfare() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        const times = [0, 0.15, 0.30, 0.48];
+        const durations = [0.2, 0.2, 0.2, 0.7];
+
+        notes.forEach((freq, index) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + times[index]);
+
+          gain.gain.setValueAtTime(0.001, ctx.currentTime + times[index]);
+          gain.gain.exponentialRampToValueAtTime(0.28, ctx.currentTime + times[index] + 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + times[index] + durations[index]);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(ctx.currentTime + times[index]);
+          osc.stop(ctx.currentTime + times[index] + durations[index]);
+        });
+      } catch (e) {
+        console.log('Audio not allowed or supported', e);
+      }
+    }
+
+    function triggerCelebration() {
+      playCelebrationFanfare();
+
+      const count = 260;
+      const defaults = {
+        origin: { y: 0.7 },
+        spread: 90,
+        ticks: 200,
+        colors: ['#059669', '#10b981', '#0ea5e9', '#3b82f6', '#f59e0b', '#ec4899', '#6366f1']
+      };
+
+      confetti({
+        ...defaults,
+        particleCount: Math.floor(count * 0.4),
+        spread: 60,
+      });
+
+      setTimeout(() => {
+        confetti({
+          ...defaults,
+          particleCount: Math.floor(count * 0.35),
+          angle: 60,
+          spread: 80,
+          origin: { x: 0.1, y: 0.65 }
+        });
+        confetti({
+          ...defaults,
+          particleCount: Math.floor(count * 0.35),
+          angle: 120,
+          spread: 80,
+          origin: { x: 0.9, y: 0.65 }
+        });
+      }, 250);
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 80,
+          spread: 100,
+          origin: { y: 0.5 },
+          shapes: ['circle', 'square'],
+          scalar: 1.2,
+          colors: ['#ffd700', '#10b981', '#00e5ff']
+        });
+      }, 500);
+
+      setTimeout(() => {
+        document.getElementById('celebrationModal').classList.add('show');
+      }, 650);
+    }
+
+    function triggerMiniConfetti() {
+      confetti({
+        particleCount: 45,
+        spread: 50,
+        origin: { y: 0.8 },
+        colors: ['#059669', '#10b981', '#0ea5e9']
+      });
+    }
+
+    function closeCelebration() {
+      document.getElementById('celebrationModal').classList.remove('show');
+    }
+
+    document.getElementById('celebrationModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeCelebration();
+      }
+    });
+  </script>
+</body>
+</html>
+```
